@@ -2,17 +2,6 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getMeal } from "@/lib/meals";
 import classes from "./page.module.css";
-import { log } from "console";
-
-type meal = {
-  title: string;
-  slug: string;
-  image: string;
-  summary: string;
-  instructions: string;
-  creator: string;
-  creator_email: string;
-};
 
 export default function MealDetails({
   params,
