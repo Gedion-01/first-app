@@ -9,7 +9,7 @@ function isValidText(text: string): boolean {
 }
 
 // sercer actions
-export async function shareMeal(formData: FormData) {
+export async function shareMeal(prevState: any, formData: FormData) {
   const meal = {
     title: formData.get("title") as string,
     summary: formData.get("summary") as string,
@@ -29,9 +29,14 @@ export async function shareMeal(formData: FormData) {
     !meal.image ||
     !(meal.image instanceof File && meal.image.size === 0)
   ) {
-    throw new Error("Invalid meal data");
+    return message;
   }
-  console.log(meal);
   await saveMeal(meal);
   redirect("/meals");
 }
+
+type messageType = { message: string | null };
+
+const message: messageType = {
+  message: "Invalid input. Please check your input and try again.",
+};
