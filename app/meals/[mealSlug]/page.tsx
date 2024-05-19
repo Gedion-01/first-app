@@ -3,11 +3,27 @@ import { notFound } from "next/navigation";
 import { getMeal } from "@/lib/meals";
 import classes from "./page.module.css";
 
-export default function MealDetails({
-  params,
-}: {
-  params: { mealSlug: string };
-}) {
+type paramsProp = {
+  params: {
+    mealSlug: string;
+  };
+};
+
+// adding metadata for dynamic pages is like this
+export async function generateMetadata({ params }: paramsProp) {
+  const meal = getMeal(params.mealSlug) as meal;
+
+  if (!meal) {
+    notFound();
+  }
+
+  return {
+    title: meal.title,
+    description: meal.summary,
+  };
+}
+
+export default function MealDetails({ params }: paramsProp) {
   const meal = getMeal(params.mealSlug) as meal;
 
   if (!meal) {
@@ -20,7 +36,7 @@ export default function MealDetails({
     <>
       <header className={classes.header}>
         <div className={classes.image}>
-          <Image src={meal.image} alt={meal.title} fill />
+          <Image src={meal.image as string} alt={meal.title} fill />
         </div>
         <div className={classes.headerText}>
           <h1>{meal.title}</h1>
